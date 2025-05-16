@@ -19,7 +19,7 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_600SemiBold,
     Inter_700Bold,
-    FunnelSans_400Regular: require('../assets/fonts/FunnelSans-Regular.ttf'),
+    FunnelSans_400Regular: require('@/assets/fonts/FunnelSans-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -68,14 +68,13 @@ export default function RootLayout() {
         {!videoError && (
           <Video
             ref={videoRef}
-            source={require('../assets/videos/splash.mp4')}
+            source={require('@/assets/videos/splash.mp4')}
             style={styles.videoBackground}
             resizeMode={ResizeMode.COVER}
             shouldPlay
             isLooping
             isMuted
             useNativeControls={false}
-            progressUpdateIntervalMillis={1000}
             onError={(error) => {
               console.error('Video error:', error);
               setVideoError(true);

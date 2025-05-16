@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { LandPlot as Home, Search, Video, MessageSquare, MessageCircle } from 'lucide-react-native';
 import { Logo } from '@/components/Logo';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
@@ -55,7 +55,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: true,
         headerTitle: () => <LogoTitle />,
         headerRight: () => (
@@ -76,18 +76,27 @@ export default function TabLayout() {
         },
         tabBarActiveTintColor: '#2D6A4F',
         tabBarInactiveTintColor: '#52796F',
-        tabBarStyle: {
-          borderTopColor: '#E6E6E6',
-          height: 60,
-          paddingBottom: 2,
-          paddingTop: 2,
-          backgroundColor: '#fff',
-        },
+        tabBarStyle: Platform.select({
+          web: {
+            borderTopColor: '#E6E6E6',
+            height: 60,
+            paddingBottom: 2,
+            paddingTop: 2,
+            backgroundColor: '#fff',
+          },
+          default: {
+            borderTopColor: '#E6E6E6',
+            height: 60,
+            paddingBottom: 2,
+            paddingTop: 2,
+            backgroundColor: '#fff',
+          }
+        }),
         tabBarLabelStyle: {
           fontFamily: 'Inter_600SemiBold',
           fontSize: 10,
         },
-      }}>
+      })}>
       <Tabs.Screen
         name="index"
         options={{

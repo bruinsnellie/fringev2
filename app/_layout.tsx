@@ -66,27 +66,29 @@ export default function RootLayout() {
     return (
       <View style={styles.splashContainer}>
         {!videoError && (
-          <Video
-            ref={videoRef}
-            source={require('@/assets/videos/splash.mp4')}
-            style={styles.videoBackground}
-            resizeMode={ResizeMode.COVER}
-            shouldPlay
-            isLooping
-            isMuted
-            onError={(error) => {
-              console.error('Video error:', error);
-              setVideoError(true);
-            }}
-            onLoad={() => {
-              if (videoRef.current) {
-                videoRef.current.playAsync().catch(error => {
-                  console.error('Error playing video:', error);
-                  setVideoError(true);
-                });
-              }
-            }}
-          />
+          <View style={styles.videoWrapper}>
+            <Video
+              ref={videoRef}
+              source={require('@/assets/videos/splash.mp4')}
+              style={styles.video}
+              resizeMode={ResizeMode.COVER}
+              shouldPlay
+              isLooping
+              isMuted
+              onError={(error) => {
+                console.error('Video error:', error);
+                setVideoError(true);
+              }}
+              onLoad={() => {
+                if (videoRef.current) {
+                  videoRef.current.playAsync().catch(error => {
+                    console.error('Error playing video:', error);
+                    setVideoError(true);
+                  });
+                }
+              }}
+            />
+          </View>
         )}
         <Animated.View
           style={[
@@ -125,12 +127,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#000',
   },
-  videoBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  videoWrapper: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#000',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
   },
   logoContainer: {
     alignItems: 'center',

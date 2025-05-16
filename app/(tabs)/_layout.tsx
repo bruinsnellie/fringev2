@@ -119,7 +119,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="chat"
+        name="messages"
         options={{
           title: 'Messages',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={MessageCircle} focused={focused} />,

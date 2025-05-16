@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router';
 import { LandPlot as Home, Search, Video, MessageSquare, MessageCircle } from 'lucide-react-native';
-import { Logo } from '@/components/Logo';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
+import { Logo } from '../../components/Logo';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { router } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { Database } from '@/types/supabase';
 import { DEFAULT_PROFILE_PIC } from '@/constants/images';
@@ -53,9 +53,14 @@ export default function TabLayout() {
     return null;
   }
 
+  if (!session) {
+    router.replace('/sign-in');
+    return null;
+  }
+
   return (
     <Tabs
-      screenOptions={({ route }) => ({
+      screenOptions={{
         headerShown: true,
         headerTitle: () => <LogoTitle />,
         headerRight: () => (
@@ -76,27 +81,30 @@ export default function TabLayout() {
         },
         tabBarActiveTintColor: '#2D6A4F',
         tabBarInactiveTintColor: '#52796F',
-        tabBarStyle: Platform.select({
-          web: {
-            borderTopColor: '#E6E6E6',
-            height: 60,
-            paddingBottom: 2,
-            paddingTop: 2,
-            backgroundColor: '#fff',
+        tabBarStyle: {
+          borderTopColor: '#E6E6E6',
+          height: 60,
+          paddingBottom: 2,
+          paddingTop: 2,
+          backgroundColor: '#fff',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          elevation: 8,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: -4,
           },
-          default: {
-            borderTopColor: '#E6E6E6',
-            height: 60,
-            paddingBottom: 2,
-            paddingTop: 2,
-            backgroundColor: '#fff',
-          }
-        }),
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+        },
         tabBarLabelStyle: {
           fontFamily: 'Inter_600SemiBold',
           fontSize: 10,
         },
-      })}>
+      }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -130,6 +138,13 @@ export default function TabLayout() {
         options={{
           title: 'Videos',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={Video} focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          href: null,
+          headerShown: false,
         }}
       />
     </Tabs>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet, Image, Animated, Easing } from 'react-native';
-import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
+import { Video, ResizeMode } from 'expo-av';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 import { Logo } from '@/components/Logo';
@@ -74,7 +74,6 @@ export default function RootLayout() {
             shouldPlay
             isLooping
             isMuted
-            useNativeControls={false}
             onError={(error) => {
               console.error('Video error:', error);
               setVideoError(true);

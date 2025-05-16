@@ -1,6 +1,6 @@
-import { Tabs, Redirect } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { LandPlot as Home, Search, Video, MessageSquare, MessageCircle } from 'lucide-react-native';
-import { Logo } from '../../components/Logo';
+import { Logo } from '@/components/Logo';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { router } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
@@ -49,14 +49,8 @@ export default function TabLayout() {
     }
   };
 
-  // Don't render anything while loading
   if (loading) {
     return null;
-  }
-
-  // Redirect to sign in if not authenticated
-  if (!session) {
-    return <Redirect href="/sign-in" />;
   }
 
   return (
@@ -88,18 +82,6 @@ export default function TabLayout() {
           paddingBottom: 2,
           paddingTop: 2,
           backgroundColor: '#fff',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          elevation: 8,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: -4,
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
         },
         tabBarLabelStyle: {
           fontFamily: 'Inter_600SemiBold',
@@ -139,13 +121,6 @@ export default function TabLayout() {
         options={{
           title: 'Videos',
           tabBarIcon: ({ focused }) => <TabBarIcon Icon={Video} focused={focused} />,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          href: null, // This hides it from the tab bar
-          headerShown: false, // This hides the header since we're using the tabs header
         }}
       />
     </Tabs>

@@ -77,16 +77,19 @@ export default function RootLayout() {
               shouldPlay
               isLooping
               isMuted
+              useNativeControls={false}
               onError={(error) => {
                 console.error('Video error:', error);
                 setVideoError(true);
               }}
-              onLoad={() => {
-                if (videoRef.current) {
-                  videoRef.current.playAsync().catch(error => {
-                    console.error('Error playing video:', error);
-                    setVideoError(true);
-                  });
+              onLoad={async () => {
+                try {
+                  if (videoRef.current) {
+                    await videoRef.current.playAsync();
+                  }
+                } catch (error) {
+                  console.error('Error playing video:', error);
+                  setVideoError(true);
                 }
               }}
             />

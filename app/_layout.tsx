@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, ActivityIndicator, StyleSheet, Image, Animated, Easing } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Image, Animated, Easing, Dimensions } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts, Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 import { Logo } from '@/components/Logo';
+
+const { width, height } = Dimensions.get('window');
 
 export default function RootLayout() {
   useFrameworkReady();
@@ -66,7 +68,7 @@ export default function RootLayout() {
     return (
       <View style={styles.splashContainer}>
         {!videoError && (
-          <View style={styles.videoWrapper}>
+          <View style={styles.videoContainer}>
             <Video
               ref={videoRef}
               source={require('@/assets/videos/splash.mp4')}
@@ -90,20 +92,22 @@ export default function RootLayout() {
             />
           </View>
         )}
-        <Animated.View
-          style={[
-            styles.logoContainer,
-            {
-              opacity: fadeAnim,
-              transform: [{ scale: scaleAnim }],
-            },
-          ]}
-        >
-          <Logo size={500} />
-        </Animated.View>
-        <Animated.View style={{ opacity: fadeAnim }}>
-          <ActivityIndicator size="large" color="#2D6A4F" style={styles.loader} />
-        </Animated.View>
+        <View style={styles.overlay}>
+          <Animated.View
+            style={[
+              styles.logoContainer,
+              {
+                opacity: fadeAnim,
+                transform: [{ scale: scaleAnim }],
+              },
+            ]}
+          >
+            <Logo size={500} />
+          </Animated.View>
+          <Animated.View style={{ opacity: fadeAnim }}>
+            <ActivityIndicator size="large" color="#2D6A4F" style={styles.loader} />
+          </Animated.View>
+        </View>
       </View>
     );
   }
@@ -123,17 +127,25 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   splashContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#000',
   },
-  videoWrapper: {
-    ...StyleSheet.absoluteFillObject,
+  videoContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: '#000',
   },
   video: {
-    width: '100%',
-    height: '100%',
+    width,
+    height,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   logoContainer: {
     alignItems: 'center',
